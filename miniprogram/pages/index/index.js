@@ -17,7 +17,6 @@ Page({
       })
       return
     }
-
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -29,6 +28,7 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
               })
+              this.saveUserInfo(res);
             }
           })
         }
@@ -36,7 +36,22 @@ Page({
     })
   },
 
+  //保存用户信息
+  saveUserInfo:function(data){
+    console.log(data);
+    const db=wx.cloud.database();
+    db.collection("userInfo").where({
+      _openid:this.data.openid
+    }).get({
+      success : res=>{
+        
+      }
+    })
+
+  },
+
   onGetUserInfo: function(e) {
+    console.log(e);
     if (!this.logged && e.detail.userInfo) {
       this.setData({
         logged: true,
