@@ -1,13 +1,15 @@
 //index.js
 const app = getApp()
-
+const moment = require('moment-with-locales.js')
 Page({
   data: {
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
     takeSession: false,
-    requestResult: ''
+    requestResult: '',
+    lastTime:'',
+    counts:0,
   },
 
   onLoad: function() {
@@ -21,6 +23,19 @@ Page({
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
+          const db=wx.cloud.database();
+          db.collection("userInfo").where({
+            _openid:this.data.openid
+          }).get({
+            success:res2=>{
+              console.log(res2);
+              this.setData({
+                lastTime: res2.data[0].loginDate,
+                counts: res2.data.length
+              });
+              console.log(this.data.counts);
+            }
+          })
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
@@ -28,7 +43,17 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
               })
-              this.saveUserInfo(res);
+              //this.checkUserInfo(res);
+              var time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+              //data.userInfo["loginDate"] = time;
+              res.userInfo['loginDate'] = time;
+              console.log(this.data.counts);
+              //if (this.data.counts==0){
+              //  this.saveUSerInfo(res);
+              //}else{
+               // this.updUserInfo(res);
+              //}
+              this.checkUserInfo(res);
             }
           })
         }
@@ -37,19 +62,45 @@ Page({
   },
 
   //保存用户信息
-  saveUserInfo:function(data){
-    console.log(data);
+  checkUserInfo:function(data){
     const db=wx.cloud.database();
     db.collection("userInfo").where({
       _openid:this.data.openid
-    }).get({
-      success : res=>{
-        
+    }).count({
+      success: res => {
+        var time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+        //data.userInfo["loginDate"] = time;
+        data.userInfo['loginDate']=time;
+        if(res.total==0){
+          this.saveUSerInfo(data);
+        }else{
+          this.updUserInfo(data);
+        }
       }
     })
 
   },
+  saveUSerInfo:function(data){
+    const db=wx.cloud.database();
+    db.collection("userInfo").add({
+      data:data.userInfo,
+      success : res=>{
+        console.log("添加成功");
+        console.log(res.errMsg);
+      }
+    }
+    )
+  },
+  updUserInfo:function(data){
+    console.log(data.userInfo);
+    const db=wx.cloud.database();
+    db.collection("userInfo").doc(data.userInfo).update({
+      success:res=>{
+        console.log(res);
+      }
+    })
 
+  },
   onGetUserInfo: function(e) {
     console.log(e);
     if (!this.logged && e.detail.userInfo) {

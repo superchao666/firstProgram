@@ -1,6 +1,9 @@
 <!--index.wxml-->
 <view class="container">
-
+  <!-- 最近登录时间 -->
+  <view class='loginTime'>
+    上次登录：{{lastTime}} 个数：{{counts}}
+  </view>
   <!-- 用户 openid -->
   <view class="userinfo">
     <button 
