@@ -1,0 +1,24 @@
+<!--miniprogram/pages/fault/fault.wxml-->
+<button class='btn' bindtap='dontAng'>本姑娘不生气了(点我有惊喜)</button>
+<view class='outer' id='outer' style="background-image: url('https://7375-superchao-443be-1257841432.tcb.qcloud.la/my-image.jpg?sign=d8e499a2366575f84fbdf63e15c66238&t=1540782299');">
+   <text style='color:grey'>{{message}}</text>
+</view>
+
+<block wx:if="{{donghua}}">
+  <view class='donghua'>
+    <image bindtap='hua' style='left:{{left1}}px' animation="{{animationData1}}" class='love' src='../../image/hua2.png'></image>
+    <image bindtap='hua' style='left:{{left2}}px' animation="{{animationData2}}" class='love' src='../../image/hua2.png'></image>
+    <image bindtap='hua' style='left:{{left3}}px' animation="{{animationData3}}" class='love' src='../../image/hua2.png'></image>
+    <image bindtap='hua' style='left:{{left4}}px' animation="{{animationData4}}" class='love' src='../../image/hua2.png'></image>
+    <image bindtap='hua' style='left:{{left5}}px' animation="{{animationData5}}" class='love' src='../../image/hua2.png'></image>
+    <image bindtap='hua' style='left:{{left6}}px' animation="{{animationData6}}" class='love' src='../../image/hua2.png'></image>
+    </view>
+  </block>
+
+
+
+
+
+
+
+

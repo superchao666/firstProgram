@@ -1,6 +1,7 @@
 {
   "cloud": true,
   "pages": [
+    "pages/fault/fault",
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
@@ -13,7 +14,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTitleText": "刘文超向您认错",
     "navigationBarTextStyle": "black"
   }
 }

@@ -1,6 +1,7 @@
 //index.js
 const app = getApp()
 const moment = require('moment-with-locales.js')
+var animation =wx.createAnimation({})
 Page({
   data: {
     avatarUrl: './user-unlogin.png',
@@ -10,6 +11,13 @@ Page({
     requestResult: '',
     lastTime:'',
     counts:0,
+    donghua: true,
+    left1: Math.floor(Math.random() * 305 + 1),
+    left2: Math.floor(Math.random() * 305 + 1),
+    left3: Math.floor(Math.random() * 305 + 1),
+    left4: Math.floor(Math.random() * 305 + 1),
+    left5: Math.floor(Math.random() * 305 + 1),
+    left6: Math.floor(Math.random() * 305 + 1),
   },
 
   onLoad: function() {
@@ -182,5 +190,29 @@ Page({
       }
     })
   },
+  donghua: function () {
+    setTimeout(function () {
+      animation.translateY(604).step({ duration: 4000 })
+      this.setData({
+        ["animationData" + i]: animation.export()
+      })
+      i++;
+    }.bind(this), 500)
+    if (i < 7) {
+      setTimeout(function () {
+        this.donghua()
+      }.bind(this), 500)
+    } else {
+      console.log(22)
+      setTimeout(function () {
+        this.setData({
+          donghua: false
+        })
+      }.bind(this), 4500)
+    }
+  },
+
+
+
 
 })
